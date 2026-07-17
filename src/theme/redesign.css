@@ -1,0 +1,353 @@
+/* =====================================================================
+   Redesign layer — modern glass / shadcn look applied to the remaining
+   class-based page markup (product, contact, careers, downloads, team…).
+   Loaded LAST so it wins over theme.css / style.css. Content is untouched;
+   only presentation changes. Bootstrap itself is removed — these classes
+   are now defined by our own index.css grid + this file.
+   ===================================================================== */
+
+:root {
+  --rd-card: rgba(16, 29, 43, 0.6);
+  --rd-border: rgba(64, 224, 208, 0.16);
+  --rd-radius: 18px;
+
+  /* new project background palette (ot-bg: top / mid / bottom) */
+  --ot-bg-top: #010a25;
+  --ot-bg-mid: #021e3b;
+  --ot-bg-bottom: #01112c;
+
+  /* new blue accent — replaces the legacy teal across un-migrated markup.
+     ot-action: primary #5fa6ff / hover #74b3ff. Overrides theme.css since
+     this file loads last. */
+  --teal: #5fa6ff;
+  --teal-bright: #74b3ff;
+  --cyan: #74b3ff;
+  --accent-grad: linear-gradient(135deg, #5fa6ff 0%, #74b3ff 100%);
+  --glow: 0 0 24px rgba(95, 166, 255, 0.32);
+}
+
+/* ---------------- application-wide background ----------------
+   Navy ot-bg palette with a soft central blue glow (matches the
+   DICOM Burner reference). Loaded last so it overrides theme.css's
+   teal gradient. Deep navy base + centered radial highlight. */
+html,
+body {
+  background-color: var(--ot-bg-top) !important;
+  background-image:
+    radial-gradient(
+      55% 55% at 50% 42%,
+      rgba(37, 92, 158, 0.38) 0%,
+      rgba(20, 55, 100, 0.16) 38%,
+      transparent 72%
+    ),
+    linear-gradient(
+      180deg,
+      var(--ot-bg-top) 0%,
+      var(--ot-bg-mid) 55%,
+      var(--ot-bg-bottom) 100%
+    ) !important;
+  background-attachment: fixed !important;
+  background-repeat: no-repeat !important;
+}
+
+/* ---------------- sub-page breadcrumb hero ---------------- */
+.sub-page-heading {
+  position: relative;
+  margin-top: 0;
+  padding: 34px 0 28px !important;
+  background:
+    radial-gradient(80% 120% at 15% 0%, rgba(95, 166, 255, 0.14), transparent 60%),
+    radial-gradient(60% 120% at 100% 0%, rgba(34, 211, 238, 0.10), transparent 55%),
+    linear-gradient(180deg, rgba(10, 20, 32, 0.6), rgba(6, 13, 21, 0.2)) !important;
+  overflow: hidden;
+}
+.sub-page-heading::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(95, 166, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(95, 166, 255, 0.06) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(70% 120% at 20% 0%, #000, transparent 70%);
+  mask-image: radial-gradient(70% 120% at 20% 0%, #000, transparent 70%);
+  pointer-events: none;
+}
+.sub-page-heading h4 {
+  position: relative;
+  font-size: clamp(26px, 3.2vw, 38px) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin: 0 0 10px;
+  color: #f2f8fb;
+}
+.sub-page-heading p {
+  position: relative;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px !important;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 7px 14px;
+  border-radius: 999px;
+}
+.sub-page-heading p a { color: var(--teal-bright); }
+
+/* ---------------- generic content card wrappers ---------------- */
+.product-desc,
+.contact-us .head-office,
+.contact-us .reg-office,
+.contact-us .business-team,
+.contact-us .branch-office,
+.contact-us .get-in-touch,
+.about-content .row,
+.timeline-box,
+.downloads-card,
+.tech-card,
+.team-card {
+  background: rgba(16, 29, 43, 0.5);
+  border: none;
+  border-radius: var(--rd-radius);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 24px 70px -28px rgba(0, 0, 0, 0.85);
+}
+
+.product-desc {
+  padding: 30px 34px !important;
+  margin: 0 !important;
+  transition: background .4s ease, transform .4s ease, box-shadow .4s ease;
+}
+.product-desc:hover { background: rgba(19, 34, 50, 0.62); }
+
+/* remove the negative gutter Bootstrap rows add inside cards */
+.product-desc.row { margin-inline: 0 !important; }
+.product-desc > [class*="col-"] { padding-inline: 0 !important; }
+
+.product-desc h4 {
+  font-size: clamp(22px, 2.6vw, 30px) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.01em;
+  margin-bottom: 16px !important;
+}
+.product-desc h5 {
+  font-size: 17px !important;
+  font-weight: 700 !important;
+  color: var(--teal-bright) !important;
+  margin: 26px 0 12px !important;
+  padding-left: 14px;
+  border-left: 3px solid var(--teal);
+}
+.product-desc p { color: var(--text-muted); line-height: 1.75; }
+
+.product-desc ul { list-style: none; padding-left: 0; margin: 8px 0 18px; }
+.product-desc ul li {
+  position: relative;
+  padding: 6px 0 6px 26px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.product-desc ul li::before {
+  content: "";
+  position: absolute;
+  left: 4px; top: 13px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent-grad);
+  box-shadow: 0 0 10px rgba(95, 166, 255, 0.6);
+}
+.product-desc img {
+  border-radius: 14px;
+  max-width: 100%;
+  height: auto;
+  box-shadow: 0 20px 50px -26px rgba(0, 0, 0, 0.8);
+}
+
+/* ---------------- contact page ---------------- */
+.contact-us .head-office,
+.contact-us .reg-office,
+.contact-us .business-team,
+.contact-us .branch-office,
+.contact-us .get-in-touch {
+  padding: 26px 28px !important;
+  margin-top: 22px !important;
+  margin-inline: 0 !important;
+}
+.contact-us h5 { color: var(--teal-bright) !important; font-weight: 700 !important; }
+.contact-us iframe {
+  width: 100%;
+  min-height: 320px;
+  border-radius: 14px;
+  border: none !important;
+  filter: grayscale(0.2) contrast(1.05);
+}
+.contact-us .contact-mobile,
+.contact-us .contact-email { color: var(--text-muted); margin-right: 18px; }
+.contact-us .contact-mobile i,
+.contact-us .contact-email i { color: var(--teal); margin-right: 6px; }
+
+/* ---------------- forms (contact / demo / careers) ---------------- */
+form label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+form input[type="text"],
+form input[type="email"],
+form input[type="tel"],
+form input[type="number"],
+form input:not([type]),
+form textarea,
+form select {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 13px 16px !important;
+  color: var(--text) !important;
+  transition: background .25s ease, box-shadow .25s ease;
+  margin-bottom: 6px;
+}
+form input::placeholder,
+form textarea::placeholder { color: rgba(139, 163, 181, 0.7); }
+form input:focus,
+form textarea:focus,
+form select:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.07) !important;
+  box-shadow: 0 0 0 3px rgba(95, 166, 255, 0.22) !important;
+}
+form textarea { min-height: 130px; }
+
+/* ---------------- buttons ---------------- */
+.btn-primary,
+.btn.btn-primary,
+button.btn,
+.btn-lg {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--accent-grad) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  border: none !important;
+  border-radius: 999px !important;
+  padding: 12px 26px !important;
+  box-shadow: 0 0 24px rgba(95, 166, 255, 0.32) !important;
+  transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease !important;
+}
+.btn-primary:hover,
+.btn.btn-primary:hover,
+button.btn:hover,
+.btn-lg:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 40px rgba(95, 166, 255, 0.45) !important;
+}
+
+/* ---------------- team / tech / downloads cards ---------------- */
+.team-card,
+.tech-card,
+.downloads-card,
+.timeline-box {
+  padding: 24px !important;
+  transition: transform .45s cubic-bezier(.2,.7,.2,1), border-color .4s ease, box-shadow .4s ease;
+}
+.team-card:hover,
+.tech-card:hover,
+.downloads-card:hover,
+.timeline-box:hover {
+  transform: translateY(-6px);
+  background: rgba(19, 34, 50, 0.62);
+  box-shadow: 0 28px 66px -26px rgba(95, 166, 255, 0.32);
+}
+.team-card img { border-radius: 12px; }
+
+/* ---------------- tables (lab equipment, etc.) ---------------- */
+.product-desc table,
+table.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: none;
+}
+.product-desc table th,
+table.table th {
+  background: rgba(95, 166, 255, 0.12);
+  color: var(--teal-bright);
+  font-weight: 700;
+  text-align: left;
+  padding: 13px 16px;
+}
+.product-desc table td,
+table.table td {
+  padding: 12px 16px;
+  color: var(--text-muted);
+}
+/* zebra striping instead of borders for row separation */
+.product-desc table tbody tr:nth-child(odd) td,
+table.table tbody tr:nth-child(odd) td { background: rgba(255, 255, 255, 0.025); }
+.product-desc table tr:hover td,
+table.table tr:hover td { background: rgba(95, 166, 255, 0.06); }
+
+/* ---------------- scene strip (override theme.css border) ---------------- */
+.scene-strip { border: none !important; }
+
+/* ---------------- iframe / media rounding ---------------- */
+iframe { border-radius: 14px; }
+
+/* ---------------- safe scroll reveal (legacy blocks) ---------------- */
+.rd-reveal {
+  opacity: 0;
+  transform: translateY(34px);
+  will-change: transform, opacity;
+}
+.rd-reveal.rd-in {
+  opacity: 1;
+  transform: none;
+  transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .rd-reveal { opacity: 1 !important; transform: none !important; }
+}
+
+/* ---------------- drag-to-scroll surfaces ----------------
+   .drag-surface  — anything grabbable (overflow rails + marquees)
+   .drag-rail     — an overflow-x container driven by hooks/useDragScroll  */
+.drag-surface.is-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+/* while dragging, let the surface swallow the pointer so cards' hover-lift
+   doesn't strobe under the moving cursor */
+.drag-surface.is-dragging * { pointer-events: none; }
+
+.drag-rail {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+  overscroll-behavior-x: contain;
+}
+.drag-rail::-webkit-scrollbar { height: 6px; }
+.drag-rail::-webkit-scrollbar-track { background: transparent; }
+.drag-rail::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 99px;
+}
+.drag-rail::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.28); }
+
+/* JS sets scrollLeft per frame — smooth scrolling would fight it */
+.drag-rail.is-dragging { scroll-behavior: auto; }
+
+/* ---------------- section spacing helpers still used ---------------- */
+.ptb-40 { padding-top: 40px; padding-bottom: 40px; }
+
+@media (max-width: 991px) {
+  .sub-page-heading { padding: 24px 0 20px !important; }
+  .product-desc { padding: 22px 20px !important; }
+}

@@ -1,0 +1,20 @@
+.pt-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99998;
+    display: flex;
+    pointer-events: none;
+}
+
+.pt-col {
+    flex: 1 1 0;
+    height: 100%;
+    background: linear-gradient(180deg, #0f1e2e 0%, #060d15 100%);
+    transform-origin: top;
+    /* border seam that reads as thin teal lines during the sweep */
+    box-shadow: inset -1px 0 0 rgba(45, 212, 191, 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pt-overlay { display: none; }
+}

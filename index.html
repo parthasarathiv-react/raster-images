@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!--
+      ======================= SEO BLOCK — GENERATED =======================
+      Everything between the seo:start / seo:end markers is REWRITTEN PER ROUTE
+      at build time by scripts/prerender.mjs, which emits dist/<route>/index.html
+      for each of the 36 routes using src/seo/route-meta.json.
+
+      That map was extracted verbatim from the legacy PHP source of the live site
+      (27 unique titles), because raster.in is still ranking and this migration
+      must not move it. Do NOT "improve" the wording here — the copy below is the
+      homepage's, and it is what currently ranks.
+
+      To change a route's metadata, edit src/seo/route-meta.json (or re-run
+      scripts/extract-legacy-seo.mjs), NOT this block: the prerender overwrites
+      it. The values below are the homepage's and are what a raw `vite build`
+      (no prerender) would leave on every route.
+      Source of truth: https://www.raster.in/ + /home/raster/sarathi/raster (copy).in/
+      ====================================================================
+    -->
+    <!--seo:start-->
+    <title>Revolutionizing Digital Healthcare</title>
+    <meta
+      name="description"
+      content="At Raster, we believe in the power of open source and interoperability to achieve lower infrastructure cost. Pioneers in PACS, Raster has ventured into the Internet of Medical Things (IoMT) connecting the various medical devices, software applications and healthcare systems and services. Our softwares applications are powerful, flexible, and scalable to meet the needs of any business."
+    />
+    <meta
+      name="keywords"
+      content="Cost effective, Standards, Compliance, LOINC, SNOMED CT, HL7, FHIR, IHE, DICOM, IoMT, HIPPA"
+    />
+    <link rel="canonical" href="https://www.raster.in/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.raster.in/" />
+    <meta property="og:title" content="Revolutionizing Digital Healthcare" />
+    <meta
+      property="og:description"
+      content="At Raster, we believe in the power of open source and interoperability to achieve lower infrastructure cost. Pioneers in PACS, Raster has ventured into the Internet of Medical Things (IoMT) connecting the various medical devices, software applications and healthcare systems and services. Our softwares applications are powerful, flexible, and scalable to meet the needs of any business."
+    />
+    <meta property="og:image" content="https://www.raster.in/img/raster-og.jpg" />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://www.raster.in/" />
+    <meta property="twitter:title" content="Revolutionizing Digital Healthcare" />
+    <meta
+      property="twitter:description"
+      content="At Raster, we believe in the power of open source and interoperability to achieve lower infrastructure cost. Pioneers in PACS, Raster has ventured into the Internet of Medical Things (IoMT) connecting the various medical devices, software applications and healthcare systems and services. Our softwares applications are powerful, flexible, and scalable to meet the needs of any business."
+    />
+    <meta property="twitter:image" content="https://www.raster.in/img/raster-og.jpg" />
+    <!--seo:end-->
+
+    <!--
+      Google Ads gtag, ported from the live raster.in <head> (conversion ID
+      AW-334660420), where it sits in this exact position. The raw snippet only
+      fires on a hard load, so src/lib/gtag.js additionally sends a page_view on
+      every client-side route change — without that, an SPA reports one pageview
+      per session instead of one per page.
+    -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-334660420"></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag() { dataLayer.push(arguments) }
+      gtag('js', new Date())
+      gtag('config', 'AW-334660420')
+    </script>
+
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+
+    <!-- Icon-font + legacy asset styles (Bootstrap fully removed) -->
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <!--
+      Inter is self-hosted and declared in src/index.css (variable font, 100-900).
+      Preloaded because @font-face lives inside the bundled CSS, so the browser
+      would otherwise only discover the font after parsing that stylesheet.
+      The Google Fonts <link>s that used to sit here cost three third-party
+      round trips ahead of first paint.
+    -->
+    <link rel="preload" href="/fonts/inter/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!--
+      Deliberately NO preload for the hero image (HeroCarousel SLIDES[0]), even
+      though Lighthouse's "Preload Largest Contentful Paint image" audit asks for
+      one. The hero is client-rendered and fades in via framer-motion, so LCP is
+      gated on the JS bundle, not on image discovery. Preloading it only steals
+      bandwidth from that bundle: measured on the mobile preset, LCP went
+      2.5s -> 3.9s (as="image") or 4.0s (+fetchpriority="high"), because
+      Load Delay dropped to 0 while Render Delay grew by ~2.8s. Re-test before
+      re-adding.
+    -->
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

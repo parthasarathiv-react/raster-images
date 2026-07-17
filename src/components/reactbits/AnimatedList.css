@@ -1,0 +1,68 @@
+/* AnimatedList — themed to Raster dark/teal palette */
+.animated-list {
+  position: relative;
+  width: 100%;
+}
+.animated-list__scroll {
+  max-height: 360px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 4px 8px 4px 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(95, 166, 255, 0.5) transparent;
+}
+.animated-list__scroll.no-scrollbar { scrollbar-width: none; }
+.animated-list__scroll.no-scrollbar::-webkit-scrollbar { display: none; }
+.animated-list__scroll::-webkit-scrollbar { width: 6px; }
+.animated-list__scroll::-webkit-scrollbar-track {
+  background: rgba(1, 10, 37, 0.5);
+  border-radius: 999px;
+}
+.animated-list__scroll::-webkit-scrollbar-thumb {
+  background: rgba(95, 166, 255, 0.45);
+  border-radius: 999px;
+}
+.animated-list__scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(116, 179, 255, 0.7);
+}
+
+.animated-list__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: var(--panel, rgba(16, 29, 43, 0.72));
+  border: 1px solid var(--border, rgba(64, 224, 208, 0.16));
+  transition: background .25s ease, border-color .25s ease, transform .25s ease;
+}
+.animated-list__item.selected {
+  background: linear-gradient(90deg, rgba(95, 166, 255, 0.16), rgba(59, 130, 246, 0.05));
+  border-color: var(--teal, #5fa6ff);
+  transform: translateX(4px);
+}
+.animated-list__bullet {
+  flex-shrink: 0;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent-grad, linear-gradient(135deg, #5fa6ff, #74b3ff));
+  box-shadow: 0 0 10px rgba(95, 166, 255, 0.6);
+}
+.animated-list__text { color: var(--text, #e6f0f5); font-size: 15px; }
+.animated-list__item.selected .animated-list__text { color: var(--teal-bright, #74b3ff); }
+
+.animated-list__grad {
+  position: absolute;
+  left: 0; right: 0;
+  height: 44px;
+  pointer-events: none;
+  transition: opacity .2s ease;
+}
+.animated-list__grad--top {
+  top: 0;
+  background: linear-gradient(to bottom, var(--bg-800, #0a1420), transparent);
+}
+.animated-list__grad--bottom {
+  bottom: 0;
+  background: linear-gradient(to top, var(--bg-800, #0a1420), transparent);
+}

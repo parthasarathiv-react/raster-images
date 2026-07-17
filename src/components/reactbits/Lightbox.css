@@ -1,0 +1,51 @@
+/* Lightbox — themed to Raster dark/teal palette */
+.rb-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background: rgba(4, 9, 15, 0.85);
+  backdrop-filter: blur(6px);
+  cursor: zoom-out;
+  animation: rbLightboxIn 0.2s ease both;
+}
+@keyframes rbLightboxIn { from { opacity: 0; } to { opacity: 1; } }
+
+.rb-lightbox__img {
+  max-width: min(1000px, 92vw);
+  max-height: 88vh;
+  object-fit: contain;
+  background: #ffffff;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid var(--teal, #2dd4bf);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 50px rgba(45, 212, 191, 0.25);
+  cursor: default;
+  animation: rbLightboxZoom 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes rbLightboxZoom { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.rb-lightbox__close {
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  font-size: 28px;
+  line-height: 1;
+  color: #f2f8fb;
+  background: rgba(16, 29, 43, 0.8);
+  border: 1px solid var(--border, rgba(64, 224, 208, 0.16));
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+.rb-lightbox__close:hover {
+  background: var(--accent-grad, linear-gradient(135deg, #2ee6c5, #1fb6d4));
+  color: #04121a;
+  border-color: transparent;
+  transform: rotate(90deg);
+}

@@ -1,0 +1,161 @@
+/* =====================================================================
+   ClientIndex — editorial client list + cursor-following logo preview.
+   Rows carry no borders: separation comes from zebra tinting (the same
+   trick theme.css uses for tables) plus a hover wash.
+   ===================================================================== */
+
+.cl-index {
+  position: relative;
+}
+
+/* ---------------- floating preview ---------------- */
+.cl-index__preview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  width: 210px;
+  height: 150px;
+  /* centre the card on the cursor without a transform (framer owns transform) */
+  margin: -75px 0 0 -105px;
+  padding: 14px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 30px 70px -18px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+  opacity: 0;
+}
+.cl-index__preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ---------------- rows ---------------- */
+.cl-index__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cl-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 52px 1fr auto;
+  grid-template-areas: "num name city";
+  align-items: center;
+  gap: 20px;
+  padding: 17px 22px;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: transform .45s cubic-bezier(.2, .7, .2, 1);
+}
+/* zebra tint instead of divider rules */
+.cl-row:nth-child(odd) { background: rgba(255, 255, 255, 0.022); }
+
+/* hover wash sweeping in from the left */
+.cl-row::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(95, 166, 255, 0.18), rgba(95, 166, 255, 0.03) 55%, transparent);
+  opacity: 0;
+  transition: opacity .4s ease;
+}
+/* accent bar on the leading edge */
+.cl-row::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 12%;
+  bottom: 12%;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--accent-grad);
+  transform: scaleY(0);
+  opacity: 0;
+  transition: transform .4s cubic-bezier(.2, .7, .2, 1), opacity .3s ease;
+}
+.cl-row:hover::before { opacity: 1; }
+.cl-row:hover::after { transform: scaleY(1); opacity: 1; }
+.cl-row:hover { transform: translateX(10px); }
+
+.cl-row__num,
+.cl-row__name,
+.cl-row__city,
+.cl-row__logo { position: relative; }   /* sit above the ::before wash */
+
+.cl-row__num {
+  grid-area: num;
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: rgba(139, 163, 181, 0.45);
+  transition: color .3s ease;
+}
+.cl-row:hover .cl-row__num { color: var(--teal-bright); }
+
+.cl-row__name {
+  grid-area: name;
+  font-size: clamp(15px, 1.5vw, 19px);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text);
+  transition: color .3s ease;
+}
+.cl-row:hover .cl-row__name { color: #ffffff; }
+
+.cl-row__city {
+  grid-area: city;
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: right;
+  transition: color .3s ease;
+}
+.cl-row:hover .cl-row__city { color: #cfe2f5; }
+
+/* inline logo — desktop uses the floating preview instead */
+.cl-row__logo { display: none; grid-area: logo; }
+
+/* ---------------- coarse pointer / small screens ---------------- */
+@media (hover: none), (max-width: 767px) {
+  .cl-index__preview { display: none; }
+
+  .cl-row {
+    grid-template-columns: 46px 1fr;
+    grid-template-areas:
+      "logo name"
+      "logo city";
+    column-gap: 14px;
+    row-gap: 2px;
+    padding: 12px 12px;
+  }
+  .cl-row:hover { transform: none; }
+  .cl-row__num { display: none; }
+  .cl-row__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    padding: 4px;
+    border-radius: 10px;
+    background: #ffffff;
+  }
+  .cl-row__logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .cl-row__city { text-align: left; font-size: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cl-row,
+  .cl-row::before,
+  .cl-row::after,
+  .cl-row__name,
+  .cl-row__city,
+  .cl-row__num { transition: none; }
+  .cl-row:hover { transform: none; }
+}

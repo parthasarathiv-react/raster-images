@@ -1,0 +1,101 @@
+/* =====================================================================
+   Hardware Products — WebGL tile grid.
+   The DOM here is only a skeleton: `.hw-scene__grid` lays out empty
+   `.hw-tile__frame` boxes whose measured rects drive the three.js planes
+   in `.hw-scene__canvas` behind them. The frames stay transparent in WebGL
+   mode; in the `--plain` fallback they hold real <img>s instead.
+   ===================================================================== */
+
+.hw-scene {
+  position: relative;
+}
+
+.hw-scene__canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;   /* hover is hit-tested on the DOM placeholders */
+}
+
+.hw-scene__grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 34px 26px;
+}
+
+.hw-tile {
+  margin: 0;
+}
+
+.hw-tile__frame {
+  aspect-ratio: 4 / 3;
+  border-radius: 18px;
+}
+
+/* caption sits under the tile and lifts/brightens with its plane */
+.hw-tile__label {
+  display: block;
+  margin-top: 14px;
+  padding-left: 13px;
+  position: relative;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--text-muted);
+  transition: color .35s ease, transform .45s cubic-bezier(.2, .7, .2, 1);
+}
+/* accent tick — grows in as you hover the tile */
+.hw-tile__label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--accent-grad);
+  transform: scaleY(0);
+  transform-origin: top;
+  opacity: 0;
+  transition: transform .4s cubic-bezier(.2, .7, .2, 1), opacity .3s ease;
+}
+.hw-tile:hover .hw-tile__label {
+  color: #f2f8fb;
+  transform: translateX(3px);
+}
+.hw-tile:hover .hw-tile__label::before {
+  transform: scaleY(1);
+  opacity: 1;
+}
+
+/* ---------------- no-WebGL fallback ---------------- */
+.hw-scene__grid--plain .hw-tile__frame {
+  background: #ffffff;
+  overflow: hidden;
+}
+.hw-scene__grid--plain .hw-tile__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 12%;
+  transition: transform .5s cubic-bezier(.2, .7, .2, 1);
+}
+.hw-scene__grid--plain .hw-tile:hover .hw-tile__frame img {
+  transform: scale(1.04);
+}
+
+@media (max-width: 991px) {
+  .hw-scene__grid { grid-template-columns: repeat(3, 1fr); gap: 28px 20px; }
+}
+@media (max-width: 640px) {
+  .hw-scene__grid { grid-template-columns: repeat(2, 1fr); gap: 22px 16px; }
+  .hw-tile__label { font-size: 12px; margin-top: 11px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hw-tile__label,
+  .hw-tile__label::before,
+  .hw-scene__grid--plain .hw-tile__frame img { transition: none; }
+}

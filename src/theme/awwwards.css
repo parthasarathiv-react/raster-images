@@ -1,0 +1,117 @@
+/* =====================================================================
+   Awwwards motion/design layer  (additive — no content changes)
+   Bold typography, stronger scroll reveals, and micro-interactions.
+   Loaded after theme.css so it can lift a few values.
+   ===================================================================== */
+
+/* ---------- bolder statement typography ---------- */
+.hero-title {
+    font-size: clamp(38px, 5.2vw, 68px) !important;
+    line-height: 1.04 !important;
+    letter-spacing: -1.2px !important;
+    font-weight: 800 !important;
+}
+
+.home-heading {
+    font-size: clamp(26px, 3.4vw, 46px) !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.8px !important;
+    font-weight: 800 !important;
+}
+.home-subheading {
+    text-transform: uppercase;
+    letter-spacing: 3px !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+}
+
+/* section heading gets a small teal tick, awwwards-style label */
+.home-heading::before {
+    content: "";
+    display: inline-block;
+    width: 26px;
+    height: 3px;
+    margin: 0 14px 8px 0;
+    vertical-align: middle;
+    background: var(--accent-grad, linear-gradient(90deg, #74b3ff, #5fa6ff));
+    border-radius: 3px;
+}
+
+/* ---------- richer scroll reveals ---------- */
+/* larger travel + subtle blur that clears as the block settles */
+.reveal {
+    opacity: 0;
+    transform: translateY(46px);
+    filter: blur(6px);
+    will-change: transform, opacity, filter;
+}
+.reveal.in-view {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+    transition: opacity .9s cubic-bezier(.2,.7,.2,1),
+                transform 1s cubic-bezier(.2,.7,.2,1),
+                filter .9s ease;
+}
+
+/* ---------- hero entrance (clip-mask rise) ---------- */
+.hero-text .hero-title {
+    animation: awMaskUp 1s cubic-bezier(.2,.75,.2,1) both;
+}
+.hero-text p {
+    animation: awMaskUp 1s cubic-bezier(.2,.75,.2,1) .12s both;
+}
+.hero-text .hero-cta {
+    animation: awFadeUp .8s cubic-bezier(.2,.75,.2,1) .26s both;
+}
+@keyframes awMaskUp {
+    from { opacity: 0; transform: translateY(26px); clip-path: inset(0 0 100% 0); }
+    to   { opacity: 1; transform: translateY(0);   clip-path: inset(0 0 -10% 0); }
+}
+@keyframes awFadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- micro-interactions ---------- */
+/* magnetic-feeling CTA + card hovers */
+.hero-cta, .req-demo-btn .btn-primary, #req-btn {
+    transition: transform .35s cubic-bezier(.2,.7,.2,1), background .3s ease, color .3s ease, box-shadow .3s ease;
+}
+.hero-cta:hover { transform: translateY(-3px) scale(1.03); }
+
+.bento-card, .team-card, .tech-card, .downloads-card, .news-block {
+    transition: transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s ease, border-color .4s ease;
+}
+.bento-card:hover, .team-card:hover, .tech-card:hover,
+.downloads-card:hover, .news-block:hover {
+    transform: translateY(-6px);
+}
+
+/* link underline sweep on primary text links */
+.hero-cta::after { content: none; }
+
+/* ---------- floating grain/vignette for depth on the hero ---------- */
+.hero-section { position: relative; }
+.hero-section::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(60% 60% at 70% 30%, rgba(95,166,255,0.10), transparent 70%);
+    z-index: 0;
+}
+
+/* keep the custom cursor from fighting text selection feel */
+@media (pointer: fine) {
+    .hero-title, .home-heading { cursor: default; }
+}
+
+@media (max-width: 767px) {
+    .home-heading::before { width: 20px; margin-right: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-text .hero-title, .hero-text p, .hero-text .hero-cta { animation: none !important; }
+    .reveal { filter: none; transform: none; opacity: 1; }
+}

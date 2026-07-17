@@ -1,0 +1,135 @@
+/* =====================================================================
+   News & Events — sticky date rail + editorial body.
+   Replaces the old float-left/float-right image hack: the date pins beside
+   its own story (sticky inside the grid row) while the copy scrolls past.
+   ===================================================================== */
+
+.ne {
+  position: relative;
+}
+
+.ne__item {
+  display: grid;
+  grid-template-columns: 148px 1fr;
+  gap: 46px;
+  padding-bottom: 86px;
+}
+.ne__item:last-child { padding-bottom: 12px; }
+
+/* ---------------- sticky date ---------------- */
+.ne__date {
+  position: sticky;
+  top: 118px;
+  align-self: start;
+  height: max-content;
+  text-align: right;
+}
+.ne__day {
+  display: block;
+  font-size: clamp(30px, 3.6vw, 44px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #74b3ff 0%, #5fa6ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.ne__monthyear {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ---------------- body ---------------- */
+.ne__body {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 12px 34px;
+  align-items: start;
+}
+.ne__title {
+  grid-column: 1 / -1;
+  margin: 0 0 6px !important;
+  color: #f2f8fb !important;
+  font-size: clamp(19px, 2.1vw, 25px) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+/* source images are only ~500px wide, so the figure is capped rather than
+   full-bleed — upscaling them would just look soft */
+.ne__media {
+  margin: 6px 0 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.85);
+  max-width: 460px;
+  width: 100%;
+}
+.ne__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* scaled up so the parallax translate can never expose an edge */
+  transform-origin: center;
+}
+
+.ne__copy p {
+  color: var(--text-muted);
+  line-height: 1.85;
+  margin: 0 0 16px;
+}
+.ne__copy p:last-child { margin-bottom: 0; }
+
+.ne__list {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+.ne__list li {
+  position: relative;
+  padding: 6px 0 6px 24px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.ne__list li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 14px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-grad);
+  box-shadow: 0 0 10px rgba(95, 166, 255, 0.6);
+}
+
+@media (max-width: 1199px) {
+  .ne__body { grid-template-columns: 280px 1fr; }
+}
+@media (max-width: 991px) {
+  .ne__body { grid-template-columns: 1fr; gap: 16px; }
+  .ne__media { max-width: 460px; }
+}
+@media (max-width: 767px) {
+  .ne__item {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding-bottom: 58px;
+  }
+  .ne__date {
+    position: static;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    text-align: left;
+  }
+  .ne__day { font-size: 26px; }
+  .ne__monthyear { margin-top: 0; }
+}

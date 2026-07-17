@@ -1,0 +1,54 @@
+/* ScrollStack — themed to Raster dark/teal palette */
+.scroll-stack-scroller {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  overflow-y: auto;
+  overflow-x: visible;
+  border-radius: 20px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.scroll-stack-scroller::-webkit-scrollbar { display: none; }
+
+.scroll-stack-inner {
+  position: relative;
+  padding: 20px 20px 50vh;
+  min-height: 100%;
+}
+
+/* window-scroll mode: no inner box — the page itself scrolls the stack */
+.scroll-stack-scroller--window {
+  height: auto;
+  overflow: visible;
+  border-radius: 0;
+}
+.scroll-stack-scroller--window .scroll-stack-inner {
+  padding: 0 0 20px;
+  min-height: 0;
+}
+
+.scroll-stack-card {
+  position: relative;
+  width: 100%;
+  min-height: 340px;
+  padding: 40px;
+  border-radius: 20px;
+  box-sizing: border-box;
+  transform-origin: top center;
+  will-change: transform, filter;
+  background: linear-gradient(160deg, rgba(31, 182, 212, 0.14), rgba(16, 29, 43, 0.82));
+  border: none;
+  box-shadow: 0 24px 70px -20px rgba(0, 0, 0, 0.7), 0 0 40px rgba(45, 212, 191, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+.scroll-stack-end {
+  width: 100%;
+  height: 1px;
+}
+
+@media (max-width: 768px) {
+  .scroll-stack-scroller { height: 440px; }
+  .scroll-stack-card { padding: 26px; min-height: 300px; }
+}

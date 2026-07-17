@@ -1,0 +1,14 @@
+# Verbatim port of https://www.raster.in/robots.txt (fetched 2026-07-16).
+# Kept identical to the live file so the migration does not change crawl
+# behaviour. The Disallow paths below are legacy PHP/WordPress directories that
+# do not exist in this React app; they are harmless and retained for parity.
+User-agent: *
+Crawl-delay: 10
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /config/
+Disallow: /logs/
+Disallow: /backup/
+Disallow: /.env
+Disallow: /wp-admin/
+Disallow: /wp-includes/

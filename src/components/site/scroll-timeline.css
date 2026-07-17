@@ -1,0 +1,107 @@
+/* =====================================================================
+   ScrollTimeline — sticky year + scroll-filled accent rail.
+   Layout is a two-column grid per entry (year | content) with an absolutely
+   positioned rail running between them at --tl-rail.
+   ===================================================================== */
+
+.tl {
+  --tl-year: 124px;
+  --tl-gap: 46px;
+  --tl-rail: calc(var(--tl-year) + var(--tl-gap) / 2);
+  position: relative;
+  padding: 8px 0 20px;
+}
+
+/* the rail: a dim track with a bright gradient that scales in on scroll */
+.tl__rail {
+  position: absolute;
+  left: var(--tl-rail);
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  transform: translateX(-1px);
+  background: rgba(95, 166, 255, 0.14);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.tl__rail-fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: top center;
+  background: linear-gradient(180deg, #5fa6ff 0%, #74b3ff 55%, rgba(116, 179, 255, 0.35) 100%);
+  box-shadow: 0 0 18px rgba(95, 166, 255, 0.65);
+}
+
+.tl__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--tl-year) 1fr;
+  gap: var(--tl-gap);
+  padding-bottom: 58px;
+}
+.tl__item:last-child { padding-bottom: 0; }
+
+/* node on the rail, aligned to the first line of the title */
+.tl__dot {
+  position: absolute;
+  left: var(--tl-rail);
+  top: 9px;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  border-radius: 50%;
+  background: var(--accent-grad);
+  box-shadow: 0 0 0 4px rgba(95, 166, 255, 0.14), 0 0 16px rgba(95, 166, 255, 0.7);
+  z-index: 1;
+}
+
+/* the year pins while its own row is on screen */
+.tl__year {
+  position: sticky;
+  top: 118px;
+  align-self: start;
+  height: max-content;
+  text-align: right;
+  padding-top: 2px;
+}
+.tl__year span {
+  display: inline-block;
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  background: linear-gradient(135deg, #74b3ff 0%, #5fa6ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.tl__title {
+  color: #f2f8fb !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  margin: 0 0 10px !important;
+}
+.tl__body {
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin: 0;
+  max-width: 68ch;
+}
+
+@media (max-width: 767px) {
+  /* single column: the rail hugs the left edge and the year sits inline */
+  .tl { --tl-year: 0px; --tl-gap: 0px; --tl-rail: 6px; }
+  .tl__item {
+    display: block;
+    padding-left: 30px;
+    padding-bottom: 44px;
+  }
+  .tl__dot { top: 7px; width: 10px; height: 10px; margin-left: -5px; }
+  .tl__year {
+    position: static;
+    text-align: left;
+    margin-bottom: 6px;
+  }
+  .tl__year span { font-size: 22px; }
+}
